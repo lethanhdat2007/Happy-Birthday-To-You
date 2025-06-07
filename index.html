@@ -1,19 +1,132 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-
+<html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <title>Happy Birthday to You!</title>
+  <meta charset="UTF-8">
+  <title>Chúc mừng sinh nhật Công Túa Trâm Anhhh!</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #ffd6ec, #ffe4b5);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
 
-  <link rel="stylesheet" href="./style.css">
+    h1 {
+      font-size: 3em;
+      color: #ff4d6d;
+      text-shadow: 2px 2px #fff;
+      animation: pop 0.6s ease-in-out infinite alternate;
+    }
+
+    p {
+      font-size: 1.5em;
+      color: #333;
+      max-width: 700px;
+      text-align: center;
+      margin: 20px;
+    }
+
+    .heart {
+      color: red;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes pop {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+  </style>
 </head>
-
 <body>
-  <div>
-    <h1>HÃY BẤM VÀO HỘP QUÀ BÊN DƯỚI!</h1>
-    <a href="hop-qua.html"><img src="birthday_gift.png" alt="birthday_gift"></a>
-  </div>
-  <h1 class="made">Made by @hieuhfgr#8289</h1>
-</body>
 
+  <h1>🎉 Chúc mừng sinh nhật Công Túa Trâm Anhhh 🎂</h1>
+  <p>
+    Hôm nay là một ngày siêu đặc biệt, vì Công Túa Trâm Anhhh đã đến với thế giới này! 👑<br><br>
+    Chúc Trâm Anhhh luôn cười tươi như ánh mặt trời ☀️,<br>
+    Ngọt ngào như bánh kem 🍰,<br>
+    Lung linh như pháo hoa đêm trời ✨,<br>
+    Và được yêu thương như công chúa trong truyện cổ tích nhaaaa 💖<br><br>
+    Gửi ngàn cái ôm siêu mềm và một vạn lời chúc đáng yêu đến Công Túa 💌 <span class="heart">♥</span>
+  </p>
+
+  <canvas id="canvas"></canvas>
+
+  <!-- Nhạc nền -->
+  <audio id="birthdayMusic" autoplay loop>
+    <source src="happy-birthday.mp3" type="audio/mpeg">
+    Trình duyệt của bạn không hỗ trợ audio.
+  </audio>
+
+  <script>
+    // Hiệu ứng pháo hoa
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const colors = ['#ff4d6d', '#ffb347', '#c1fba4', '#a29bfe', '#ffeaa7'];
+    const particles = [];
+
+    function createParticle() {
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height / 2;
+      const radius = Math.random() * 3 + 2;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const speed = Math.random() * 2 + 1;
+      const angle = Math.random() * 2 * Math.PI;
+      particles.push({ x, y, radius, color, speed, angle });
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.radius *= 0.96;
+      });
+      for (let i = particles.length - 1; i >= 0; i--) {
+        if (particles[i].radius < 0.5) {
+          particles.splice(i, 1);
+        }
+      }
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      drawParticles();
+    }
+
+    setInterval(createParticle, 100);
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+
+</body>
 </html>
